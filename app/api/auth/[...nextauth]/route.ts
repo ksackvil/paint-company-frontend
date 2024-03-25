@@ -44,14 +44,12 @@ const handler = NextAuth({
     async jwt({ token, user }) {
       if (user) {
         // create updated custom token
-        console.log("LOGIN EVENT");
         token.access = user.access;
         token.refresh = user.refresh;
         token.expires = getCurrentEpochTime() + BACKEND_ACCESS_TOKEN_LIFETIME;
         token.user = user.data;
       } else if (getCurrentEpochTime() > token.expires) {
         // Access token has expired, refresh it
-        console.log("REFRESH EVENT");
         const response = await api.getRefreshToken(token.refresh);
         token.access = response.access;
         token.refresh = response.refresh;

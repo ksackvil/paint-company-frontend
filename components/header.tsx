@@ -2,12 +2,9 @@
 
 import React, { useState } from "react";
 import { signOut } from "next-auth/react";
-import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
-import { UserRoles } from "@/lib/types";
 
 export function Header() {
-  const { data: session } = useSession();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
 
