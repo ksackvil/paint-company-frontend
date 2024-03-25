@@ -34,7 +34,9 @@ export default function useInventory(session: Session) {
   async function fetchInventory() {
     try {
       const response = await api.getInventory(extractSessionToken(session));
-      setInventory(response);
+      if (response) {
+        setInventory(response);
+      }
     } catch (error) {
       clearInterval(intervalIdRef.current); // Stop polling
       toast.error("Unable to fetch inventory, try refreshing this page later");
