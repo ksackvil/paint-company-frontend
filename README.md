@@ -14,6 +14,8 @@ To login you may use any of these credentials (case sensitive!). To view and edi
 
 ## Video Demo
 
+Files located [here](https://github.com/ksackvil/paint-company-frontend/blob/main/demo)
+
 View, Update, Batch Update Paint Inventory
 
 ![Updated Inventory](https://github.com/ksackvil/paint-company-frontend/blob/main/demo/editing-inventory.gif)
