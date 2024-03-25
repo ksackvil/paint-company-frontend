@@ -15,6 +15,11 @@ export function Header() {
     setIsMenuOpen((prevState) => !prevState);
   };
 
+  if (pathname === "/login") {
+    // Do not show header bar on login page
+    return null;
+  }
+
   return (
     <header>
       <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
