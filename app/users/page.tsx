@@ -1,10 +1,8 @@
 "use client";
 
 import UsersList from "@/components/users-list";
-import useActiveUser from "@/lib/hooks/use-active-user";
 import { UserRoles } from "@/lib/types";
 import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
 
 export default function UsersPage() {
   const { data: session, status } = useSession();
