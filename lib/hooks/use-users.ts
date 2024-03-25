@@ -6,6 +6,7 @@ import { signOut } from "next-auth/react";
 import * as api from "@/lib/api";
 import { extractSessionToken } from "@/lib/utils";
 import { UserData, UserRoles } from "@/lib/types";
+import { toast } from "react-toastify";
 
 export default function useUsers(session: Session) {
   const [users, setUsers] = useState<UserData[]>([]);
@@ -25,7 +26,9 @@ export default function useUsers(session: Session) {
       const response = await api.getUsers(extractSessionToken(session));
       setUsers(response);
     } catch (error) {
-      console.error("Error fetching users:", error);
+      toast.error(
+        "Unable to fetch users, if your role has recently changed try logging out and back in"
+      );
     }
   }
 
@@ -53,7 +56,9 @@ export default function useUsers(session: Session) {
         )
       );
     } catch (error) {
-      console.error("Error updating user:", error);
+      toast.error(
+        "Unable to update user, if your role has recently changed try logging out and back in"
+      );
     }
 
     if (session.user.id === id) {

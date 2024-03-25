@@ -17,14 +17,17 @@ export default function UsersModelForm({
   updateUser,
 }: UsersModelFormProps) {
   const [role, setRole] = useState<number>(selectedUser.role);
+  const [loading, setLoading] = useState<boolean>(false);
 
   function handleClose() {
     setIsVisible(false);
   }
 
   async function handleSave() {
+    setLoading(true);
     await updateUser(selectedUser.id, role);
     setIsVisible(false);
+    setLoading(false);
   }
 
   return (
@@ -32,6 +35,7 @@ export default function UsersModelForm({
       title={selectedUser.first_name + " " + selectedUser.last_name}
       onClose={handleClose}
       onSave={handleSave}
+      loading={loading}
     >
       <div>
         <label className="block text-sm font-medium text-gray-700">Role</label>

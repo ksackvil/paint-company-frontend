@@ -1,6 +1,7 @@
 import * as api from "@/lib/api";
 import NextAuth, { User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { toast } from "react-toastify";
 
 const BACKEND_ACCESS_TOKEN_LIFETIME = 23 * 60 * 60; // 23 hours
 const BACKEND_REFRESH_TOKEN_LIFETIME = 6 * 24 * 60 * 60; // 6 days
@@ -34,8 +35,6 @@ const handler = NextAuth({
           const userData = await api.getUserData(token.access);
           return { ...token, data: userData } as User;
         } catch (error) {
-          // TODO: can we pass the error message to user?
-          console.log(error);
           return null;
         }
       },

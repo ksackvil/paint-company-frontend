@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { Provider } from "@/components/provider";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const metadata: Metadata = {
   title: "A Paint Company",
@@ -18,6 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <Provider>
         <body className="flex flex-col min-h-screen">
+          <ToastContainer />
           <Header />
           {children}
         </body>

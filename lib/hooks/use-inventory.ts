@@ -1,13 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Session } from "next-auth";
 import * as api from "@/lib/api";
 import { extractSessionToken } from "@/lib/utils";
 import { Inventory, InventoryStatus } from "@/lib/types";
+import { toast } from "react-toastify";
 
 export default function useInventory(session: Session) {
   const [inventory, setInventory] = useState<Inventory[]>([]);
+  const intervalIdRef = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
     if (session?.access) {
@@ -15,10 +17,11 @@ export default function useInventory(session: Session) {
       fetchInventory();
 
       // Polling interval in milliseconds
-      const pollingInterval = 5000;
+      const pollingInterval = 2000;
 
       // Polling function
       const intervalId = setInterval(fetchInventory, pollingInterval);
+      intervalIdRef.current = intervalId;
 
       // Cleanup function to clear the interval when the component unmounts
       return () => clearInterval(intervalId);
@@ -33,7 +36,8 @@ export default function useInventory(session: Session) {
       const response = await api.getInventory(extractSessionToken(session));
       setInventory(response);
     } catch (error) {
-      console.error("Error fetching inventory:", error);
+      clearInterval(intervalIdRef.current);
+      toast.error("Unable to fetch inventory, try refreshing this page later");
     }
   }
 
@@ -68,7 +72,7 @@ export default function useInventory(session: Session) {
         )
       );
     } catch (error) {
-      console.error("Error updating inventory:", error);
+      toast.error("Unable to update inventory, try again later");
     }
   }
 
