@@ -17,7 +17,7 @@ export default function UsersPage() {
           <p className="text-lg font-semibold mb-4">
             You do not have access to this page.
           </p>
-          <p className="text-gray-600">
+          <p className="text-gray-600 px-4">
             If your role was changed recently, you may need to log in and out
             again.
           </p>

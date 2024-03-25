@@ -32,6 +32,10 @@ export default function useUsers(session: Session) {
     }
   }
 
+  /**
+   * @param id id of user to update. If id is equal to the signed in users id then will sign user out.
+   * @param newRole role to update user to.
+   */
   async function updateUser(id: number, newRole: UserRoles) {
     if (newRole === undefined || id === undefined) {
       // No updates to be made
@@ -50,6 +54,8 @@ export default function useUsers(session: Session) {
         id,
         body
       );
+
+      // Refresh local users list with updatedUser
       setUsers((prevUsers) =>
         prevUsers.map((user) =>
           user.id === updatedUser.id ? updatedUser : user

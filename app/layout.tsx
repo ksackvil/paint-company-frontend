@@ -20,7 +20,6 @@ export default function RootLayout({
       <Provider>
         <body className="flex flex-col min-h-screen">
           <ToastContainer />
-          <Header />
           {children}
         </body>
       </Provider>

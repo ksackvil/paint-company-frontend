@@ -46,20 +46,22 @@ export async function updateUser(
   return makeApiRequest(`/users/${id}/update/`, "PATCH", token, body);
 }
 
+/**
+ * Wrapper for calling fetch on our API
+ */
 async function makeApiRequest<T>(
   endpoint: string,
   method: string,
   token?: string,
   body?: object
 ): Promise<T> {
-  /* Wrapper for calling fetch on our API */
-  const headers: HeadersInit = {
-    "Content-Type": "application/json",
-  };
+  // Construct headers, add auth token if provided
+  const headers: HeadersInit = { "Content-Type": "application/json" };
   if (token) {
     headers.Authorization = `Bearer ${token}`;
   }
 
+  // construct config, add body if provided
   const config: RequestInit = {
     method,
     headers,

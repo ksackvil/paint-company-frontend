@@ -36,11 +36,16 @@ export default function useInventory(session: Session) {
       const response = await api.getInventory(extractSessionToken(session));
       setInventory(response);
     } catch (error) {
-      clearInterval(intervalIdRef.current);
+      clearInterval(intervalIdRef.current); // Stop polling
       toast.error("Unable to fetch inventory, try refreshing this page later");
     }
   }
 
+  /**
+   * @param id id of item to update
+   * @param newCount number to update the item.count to. If -1 no updates are made
+   * @param newCount status to update the item.status to. If -1 no updates are made
+   */
   async function updateInventory(
     id: number,
     newCount: number,
@@ -66,6 +71,8 @@ export default function useInventory(session: Session) {
         id,
         body
       );
+
+      // Refresh local inventory list with updatedItem
       setInventory((prevInventory) =>
         prevInventory.map((item) =>
           item.id === updatedItem.id ? updatedItem : item

@@ -21,6 +21,7 @@ export default function LoginPage() {
       redirect: false,
     });
     if (signInEvent?.ok === true) {
+      // user successful logged in redirect to homepage
       router.push("/");
     } else {
       toast.error("Failed to sign in. Please check your credentials.");
