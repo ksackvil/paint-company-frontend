@@ -35,6 +35,6 @@ jobs:
       - name: Add Heroku remote
         env:
           HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
-        run: echo $HEROKU_APP_NAME
+        run: heroku git:remote --app $HEROKU_APP_NAME
       - name: Push to Heroku
         run: git push heroku main
