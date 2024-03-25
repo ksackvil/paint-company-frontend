@@ -1,23 +1,28 @@
 on:
   push:
     branches:
-    - main
-    
+      - main
+
 jobs:
-  custom-deploy:
+  heroku-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Check out repository
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Setup Python
-        uses: actions/setup-python@v2
+      - name: Install Node.js
+        uses: actions/setup-node@v2
         with:
-          python-version: '3.x'
-      - name: Install dependencies
+          node-version: "14.x"
+      - name: Install frontend dependencies
         run: |
-          pip install -r requirements.txt
+          cd frontend
+          npm install
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm run build
       - name: Heroku login credentials
         run: |
           cat > ~/.netrc <<EOF
@@ -32,8 +37,8 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
       - name: Add Heroku remote
-        run: heroku git:remote --app $HEROKU_APP_NAME
+        run: heroku git:remote -a $HEROKU_APP_NAME
         env:
           HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
-      - name: Deploy to Heroku
-        run: git push heroku main:main -f
+      - name: Push to Heroku
+        run: git push heroku main
